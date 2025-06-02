@@ -73,10 +73,6 @@ def main():
     plt.grid(True, linestyle='--', alpha=0.4)
     plt.tight_layout()
 
-    # Tạo thư mục nếu chưa có
-    os.makedirs("data", exist_ok=True)
-    os.makedirs("src/output", exist_ok=True)
-
     # Lưu kết quả
     df = pd.DataFrame({
         'x_dense': x_dense,
@@ -84,8 +80,8 @@ def main():
         'y_spline_clamped': y_clamped,
         'y_bptt': y_poly
     })
-    df.to_csv("data/smoothing_data.csv", index=False)
-    plt.savefig("src/output/output.png", dpi=300)
+    df.to_csv("../data/smoothing_data.csv", index=False)
+    plt.savefig("output/output.png", dpi=300)
 
     # Hiển thị
     plt.show()
