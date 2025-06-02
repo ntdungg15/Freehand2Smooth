@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline
 import pandas as pd
 import os
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def main():
     print("🎨 CHƯƠNG TRÌNH VẼ TAY & LÀM MƯỢT ĐƯỜNG")
