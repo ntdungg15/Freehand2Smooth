@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline
 import pandas as pd
 import os
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def main():
     print("🎨 CHƯƠNG TRÌNH VẼ TAY & LÀM MƯỢT ĐƯỜNG")
@@ -13,10 +16,13 @@ def main():
 
     # Bước 1: Vẽ và thu thập điểm
     fig, ax = plt.subplots(figsize=(12, 8))
+
     ax.set_title("🖱️ Click chuột trái để vẽ tay — ENTER để hoàn tất", fontsize=12, color='blue')
     ax.set_xlabel("Trục X")
     ax.set_ylabel("Trục Y")
     ax.grid(True, linestyle='--', alpha=0.3)
+    ax.set_xlim(-10, 10)  
+    ax.set_ylim(-10, 10)
     points = plt.ginput(n=-1, timeout=0)
     plt.close()
 
