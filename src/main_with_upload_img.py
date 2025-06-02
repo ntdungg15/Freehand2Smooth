@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from tkinter import filedialog, Tk, Button, Label, simpledialog
+from tkinter import filedialog, Tk, simpledialog
 from scipy.signal import savgol_filter
 from scipy.interpolate import CubicSpline
 import pandas as pd
@@ -16,27 +16,30 @@ os.makedirs(output_dir, exist_ok=True)
 def run(max_points):
     print("CHỌN ẢNH ĐỂ LÀM MƯỢT")
     
+    # Chọn ảnh
     image_path = filedialog.askopenfilename(
         filetypes=[("Image files", "*.png;*.jpg;*.jpeg;*.bmp")]
     )
     if not image_path:
         return
     
+    # Đọc ảnh -> chuyển thành ảnh trắng đen với mỗi ô có giá trị 0-255 
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    _, binary = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
-    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    if len(contours) == 0:
-        return
     
+    # Với ô > 127 thì thành 255, <= 127 thì thành 0
+    _, binary = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
+    
+    # Tìm ra các đường biên là các đường bao quanh nhóm các điểm 255
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     if len(contours) == 0:
         print("Không tìm thấy đường vẽ!")
         return
 
-    # Chọn contour dài nhất
+    # Chọn đường biên dài nhất
     contour = max(contours, key=len)
     contour = contour[:, 0, :]  
     
+    # Giới hạn số điểm gốc lại theo max_points
     if contour.shape[0] > max_points:
         idx_ds = np.linspace(0, contour.shape[0] - 1, max_points, dtype=int)
         contour = contour[idx_ds]
