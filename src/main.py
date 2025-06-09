@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline
 import pandas as pd
 import os
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def main():
     print("🎨 CHƯƠNG TRÌNH VẼ TAY & LÀM MƯỢT ĐƯỜNG")
@@ -12,7 +15,8 @@ def main():
     print("  - Kết quả sẽ được vẽ và lưu ra file")
 
     # Bước 1: Vẽ và thu thập điểm
-    fig, ax = plt.subplots(figsize=(10, 8))
+    fig, ax = plt.subplots(figsize=(12, 8))
+
     ax.set_title("🖱️ Click chuột trái để vẽ tay — ENTER để hoàn tất", fontsize=12, color='blue')
     ax.set_xlabel("Trục X")
     ax.set_ylabel("Trục Y")
@@ -69,10 +73,6 @@ def main():
     plt.grid(True, linestyle='--', alpha=0.4)
     plt.tight_layout()
 
-    # Tạo thư mục nếu chưa có
-    os.makedirs("data", exist_ok=True)
-    os.makedirs("src/output", exist_ok=True)
-
     # Lưu kết quả
     df = pd.DataFrame({
         'x_dense': x_dense,
@@ -80,8 +80,8 @@ def main():
         'y_spline_clamped': y_clamped,
         'y_bptt': y_poly
     })
-    df.to_csv("data/smoothing_data.csv", index=False)
-    plt.savefig("src/output/output.png", dpi=300)
+    df.to_csv("../data/smoothing_data.csv", index=False)
+    plt.savefig("output/output.png", dpi=300)
 
     # Hiển thị
     plt.show()

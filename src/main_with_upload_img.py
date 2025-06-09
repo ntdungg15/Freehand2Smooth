@@ -6,6 +6,9 @@ from scipy.signal import savgol_filter
 from scipy.interpolate import CubicSpline
 import pandas as pd
 import os
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 output_dir = "output"
 os.makedirs(output_dir, exist_ok=True)
